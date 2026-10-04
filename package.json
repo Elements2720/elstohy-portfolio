@@ -1,0 +1,49 @@
+{
+  "name": "elstohy-porto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack --hostname 0.0.0.0",
+    "build": "next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "dev:workers": "vite dev --host 0.0.0.0 --port 3001",
+    "build:workers": "vite build",
+    "deploy": "vinext-cloudflare deploy",
+    "typecheck": "tsc --noEmit",
+    "assets": "node scripts/import-assets.mjs",
+    "test": "tsx --test tests/security.test.ts",
+    "test:rules": "firebase emulators:exec --project demo-porto --only firestore 'tsx --test tests/firestore.rules.test.ts'",
+    "preview:workers": "vite preview"
+  },
+  "dependencies": {
+    "next": "^16.3.8",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-server-dom-webpack": "^19.2.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "motion": "^12.0.0",
+    "firebase": "^12.0.0",
+    "jose": "^6.0.0",
+    "zod": "^4.0.0",
+    "lucide-react": "^0.468.0",
+    "vinext": "^1.0.1",
+    "@vinext/cloudflare": "^1.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "vite": "^8.0.0",
+    "@vitejs/plugin-rsc": "0.5.35",
+    "@cloudflare/vite-plugin": "2.0.0-beta.sha-52b0dc0e9",
+    "cf": "1.0.0-beta.12",
+    "wrangler": "^4.0.0",
+    "tsx": "^4.0.0",
+    "playwright": "^1.55.0",
+    "@firebase/rules-unit-testing": "^5.0.0",
+    "firebase-tools": "^14.0.0"
+  },
+  "type": "module"
+}

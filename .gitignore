@@ -1,0 +1,17 @@
+node_modules
+node_modules.incomplete/
+node_modules.install-retry/
+dist/
+.cloudflare/
+*.tsbuildinfo
+/public/fonts/clash-display*.woff2
+.next/
+.next-nextjs/
+.wrangler/
+.env*
+!.env.example
+.dev.vars
+test-results/
+*-debug.log
+.vinext/
+.unlazy/

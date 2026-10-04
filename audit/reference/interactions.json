@@ -1,0 +1,20 @@
+{
+  "cursor": "none",
+  "fixedElements": [
+    {
+      "name": null,
+      "text": "USE FOR FREE",
+      "cursor": "none"
+    },
+    {
+      "name": "Hover",
+      "text": "VIEW",
+      "cursor": "none"
+    },
+    {
+      "name": null,
+      "text": "",
+      "cursor": "none"
+    }
+  ]
+}

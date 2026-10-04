@@ -1,0 +1,53 @@
+[
+  {
+    "engine": "chromium",
+    "result": "passed",
+    "widths": [
+      1440,
+      390
+    ],
+    "checks": [
+      "public pages",
+      "project detail",
+      "navigation",
+      "local clock in Tokyo browser timezone",
+      "reduced motion",
+      "dashboard login"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "firefox",
+    "result": "passed",
+    "widths": [
+      1440,
+      390
+    ],
+    "checks": [
+      "public pages",
+      "project detail",
+      "navigation",
+      "local clock in Tokyo browser timezone",
+      "reduced motion",
+      "dashboard login"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "result": "passed",
+    "widths": [
+      1440,
+      390
+    ],
+    "checks": [
+      "public pages",
+      "project detail",
+      "navigation",
+      "local clock in Tokyo browser timezone",
+      "reduced motion",
+      "dashboard login"
+    ],
+    "errors": []
+  }
+]

@@ -1,0 +1,4 @@
+import {chromium} from 'playwright';
+const browser=await chromium.launch(),p=await browser.newPage({viewport:{width:1440,height:1000}});await p.goto('https://porto-template.framer.website/',{waitUntil:'networkidle'});
+console.log(await p.evaluate(()=>[...document.querySelectorAll('*')].filter(e=>getComputedStyle(e).position==='sticky').map(e=>({name:e.getAttribute('data-framer-name'),text:e.textContent.slice(0,100),height:e.getBoundingClientRect().height,y:e.getBoundingClientRect().y}))));
+for(const y of [0,200,500,800]){await p.evaluate(y=>scrollTo({top:y,behavior:'instant'}),y);await p.waitForTimeout(400);console.log(await p.evaluate(()=>({scroll:scrollY,h1:document.querySelector('h1').getBoundingClientRect().y,firstImage:document.images[0]?.getBoundingClientRect().y})));}await browser.close();

@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function admin() { return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.enabled == true; }
+  function live() { return !exists(/databases/$(database)/documents/site/settings) || get(/databases/$(database)/documents/site/settings).data.sitePublished == true; }
+  match /admins/{uid} {
+   allow get: if request.auth != null && request.auth.uid == uid;
+   allow list, write: if false;
+  }
+  match /site/{id} {
+   allow read: if admin() || id == 'settings' || (live() && id in ['profile','seo']);
+   allow write: if admin() && ((id == 'profile' && request.resource.data.keys().hasOnly(['displayName','headline','secondaryHeadline','shortBio','about','email','availabilityText','portrait','heroImage','heroWord','resumeUrl','resumeSanitized']) && (request.resource.data.resumeUrl == '' || request.resource.data.resumeSanitized == true)) || (id == 'seo' && request.resource.data.keys().hasOnly(['siteTitle','defaultDescription','defaultOgImage','canonicalBaseUrl','socialPreviewTitle'])) || (id == 'settings' && request.resource.data.keys().hasOnly(['sitePublished','defaultProjectSort','contactEmail','resumeEnabled'])));
+  }
+  match /projects/{id} {
+   allow read: if admin() || (live() && resource.data.status == 'published');
+   allow create, update: if admin() && request.resource.data.id == id && request.resource.data.title is string && request.resource.data.title.size() > 0 && request.resource.data.slug.matches('^[a-z0-9]+(-[a-z0-9]+)*$') && request.resource.data.status in ['draft','published'] && getAfter(/databases/$(database)/documents/slugs/$(request.resource.data.slug)).data.projectId == id && request.resource.data.keys().hasOnly(['id','title','slug','shortDescription','fullDescription','role','category','projectType','technologies','contributions','challenges','startDate','endDate','logo','coverImage','screenshots','platforms','apps','androidUrl','iosUrl','websiteUrl','githubUrl','featured','status','displayOrder','createdAt','updatedAt','caseStudy','seoTitle','seoDescription','ogImage']) && (request.resource.data.status == 'draft' || (request.resource.data.shortDescription.size() > 0 && request.resource.data.role.size() > 0 && request.resource.data.coverImage is map));
+   allow delete: if admin();
+  }
+  match /slugs/{slug} {
+   allow read: if admin();
+   allow create: if admin() && request.resource.data.keys().hasOnly(['projectId']) && getAfter(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.slug == slug;
+   allow update: if admin() && request.resource.data.projectId == resource.data.projectId && request.resource.data.keys().hasOnly(['projectId']) && getAfter(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.slug == slug;
+   allow delete: if admin() && (!existsAfter(/databases/$(database)/documents/projects/$(resource.data.projectId)) || getAfter(/databases/$(database)/documents/projects/$(resource.data.projectId)).data.slug != slug);
+  }
+  match /{collection}/{id} {
+   allow read: if collection in ['services','experience','expertise'] && (admin() || (live() && resource.data.published == true));
+   allow create, update: if collection in ['services','experience','expertise'] && admin() && request.resource.data.id == id && request.resource.data.title.size() > 0 && request.resource.data.published is bool && request.resource.data.keys().hasOnly(['id','title','shortDescription','details','summary','description','startDate','endDate','highlights','technologies','relatedProjectIds','displayOrder','published','updatedAt']);
+   allow delete: if collection in ['services','experience','expertise'] && admin();
+  }
+  match /socialLinks/main {
+   allow read: if admin() || live();
+   allow write: if admin() && request.resource.data.keys().hasOnly(['email','linkedin','github','other']);
+  }
+  match /media/{id} { allow read,write: if admin(); }
+  match /{document=**} { allow read,write: if false; }
+ }
+}

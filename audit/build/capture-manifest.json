@@ -1,0 +1,38 @@
+{
+  "capturedAt": "2026-10-04T00:34:21.364Z",
+  "buildId": "ZCDkIallUWqnapJVNp51K",
+  "sources": [
+    {
+      "path": "src/components/public/portfolio.tsx",
+      "sha256": "d13fc4793f971073fd54ecedf11a08cff7fbcc6675a2db8f47ec0b7d15ebb56d"
+    },
+    {
+      "path": "src/components/public/motion.tsx",
+      "sha256": "524912af1112db7a9f547edc06938e3ab8586d83efc62e86dada1e4f24083252"
+    },
+    {
+      "path": "src/components/public/header.tsx",
+      "sha256": "616aa74bd86b7a203f801585add455742d61f3344a040e257a164d277c89d8e2"
+    },
+    {
+      "path": "src/app/globals.css",
+      "sha256": "d57a91dca766a026b4d35ead799323a96711af670d1511f1febc1f33225439a4"
+    },
+    {
+      "path": "src/app/work/[slug]/page.tsx",
+      "sha256": "4530c31f736dab21b71ace29256c8413f67af618e7bc8fc25a3b3bbcd016c2fe"
+    },
+    {
+      "path": "src/lib/seed.ts",
+      "sha256": "71a72364adfd3aeb5fcf765e3826938be367c15c7688d32acd8085ee6fc16c8a"
+    },
+    {
+      "path": "src/lib/project-details.ts",
+      "sha256": "227510d564f4266eebd046bad8791bf9a7e85c2729fa577fae6d17a266c15797"
+    },
+    {
+      "path": "public/media/manifest.json",
+      "sha256": "cb4365aa67375b0c0eacc1521ede2674f35145caa14e1745d9c53bd00eba24ec"
+    }
+  ]
+}

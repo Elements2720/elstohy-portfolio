@@ -1,0 +1,56 @@
+{
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/modo",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/motaah",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/tazweed",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/malahi-time",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/mock-meet",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/eahs-uae",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/al-sundos",
+      "status": 200,
+      "privacy": "passed"
+    },
+    {
+      "path": "/work/eda-inspection",
+      "status": 200,
+      "privacy": "passed"
+    }
+  ],
+  "publicAuthSdk": "not loaded",
+  "registrationRoutes": "404",
+  "unknownWork": "404",
+  "serverClock": "placeholder",
+  "astro": "absent",
+  "staticExport": "absent",
+  "positiveControl": "prohibited fixture detected"
+}

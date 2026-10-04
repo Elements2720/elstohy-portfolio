@@ -1,0 +1,24 @@
+{
+  "passed": [
+    "owner emulator login",
+    "title-only draft",
+    "draft public 404",
+    "unique slug transaction",
+    "cover selection",
+    "connected app editing",
+    "publish server-rendered page",
+    "featured toggle",
+    "services CRUD",
+    "mobile editor and section navigation",
+    "keyboard tab navigation",
+    "contact email synchronization",
+    "direct upload UI with mocked network",
+    "unpublish public 404",
+    "project deletion",
+    "atomic starter import preserving owner edits and media",
+    "logout",
+    "non-admin access denied"
+  ],
+  "browserErrors": [],
+  "scope": "Firebase Auth + Firestore emulators. Upload network responses mocked; real Cloudinary account not configured."
+}

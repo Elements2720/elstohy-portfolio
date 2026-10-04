@@ -1,0 +1,21 @@
+import {chromium} from 'playwright';
+import {mkdir,writeFile,readFile,stat} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const browser=await chromium.launch();await mkdir('audit/build',{recursive:true});const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));const results=[];
+for(const width of [1728,1440,1280,1024,768,430,390,375]){
+ await page.setViewportSize({width,height:1000});await page.goto('http://localhost:3000/',{waitUntil:'networkidle'});await page.waitForTimeout(1600);
+ await page.screenshot({path:`audit/build/home-${width}.png`});
+ const state=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,clock:document.querySelector('.local-clock time')?.textContent,missingImages:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src),heroFont:getComputedStyle(document.querySelector('h1')).fontSize}));results.push({width,...state});
+ if(width===1440||width===390){for(const id of ['approach','work','profile','services','experience','contact']){await page.locator(`#${id}`).evaluate(e=>window.scrollTo({top:e.getBoundingClientRect().top+scrollY,behavior:'instant'}));await page.waitForTimeout(800);await page.screenshot({path:`audit/build/${id}-${width}.png`});}}
+}
+await page.setViewportSize({width:1440,height:1000});await page.goto('http://localhost:3000/work/mock-meet',{waitUntil:'networkidle'});const height=await page.evaluate(()=>document.documentElement.scrollHeight);for(let y=0;y<height;y+=650){await page.evaluate(y=>window.scrollTo({top:y,behavior:'instant'}),y);await page.waitForTimeout(120);}await page.evaluate(()=>{document.activeElement?.blur();scrollTo({top:0,behavior:'instant'});});await page.waitForTimeout(700);await page.screenshot({path:'audit/build/work-detail-1440.png',fullPage:true});await page.screenshot({path:'audit/build/work-opening-1440.png'});for(const [name,selector] of [['metadata','.project-metadata'],['apps','.project-suite'],['more','.more-work']]){await page.locator(selector).evaluate(e=>scrollTo({top:e.getBoundingClientRect().top+scrollY,behavior:'instant'}));await page.waitForTimeout(700);await page.screenshot({path:`audit/build/work-${name}-1440.png`});}
+for(const width of [1440,768,390]){await page.setViewportSize({width,height:1000});await page.goto('http://localhost:3000/dashboard/login',{waitUntil:'networkidle'});await page.screenshot({path:`audit/build/login-${width}.png`});}
+await page.setViewportSize({width:1440,height:1000});await page.goto('http://localhost:3000/',{waitUntil:'networkidle'});await page.locator('[data-work]').first().scrollIntoViewIfNeeded();const target=await page.locator('[data-work]').first().boundingBox();await page.mouse.move(target.x+target.width/2,target.y+target.height/2);await page.waitForTimeout(900);assert.equal(await page.locator('.work-cursor').innerText(),'VIEW');await page.screenshot({path:'audit/build/work-hover-1440.png'});
+for(const result of results){assert.equal(result.scrollWidth,result.width);assert.deepEqual(result.missingImages,[]);assert.match(result.clock,/^\d{2}:\d{2}:\d{2}$/);}assert.deepEqual(errors,[]);
+const buildId=(await readFile('.next-nextjs/BUILD_ID','utf8')).trim(),builtAt=(await stat('.next-nextjs/BUILD_ID')).mtimeMs;
+const sourcePaths=['src/components/public/portfolio.tsx','src/components/public/motion.tsx','src/components/public/header.tsx','src/app/globals.css','src/app/work/[slug]/page.tsx','src/lib/seed.ts','src/lib/project-details.ts','public/media/manifest.json'];
+const sources=[];for(const path of sourcePaths){assert.ok((await stat(path)).mtimeMs<=builtAt,`Capture source changed since production build: ${path}`);sources.push({path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')});}
+assert.ok((await (await fetch('http://localhost:3000/')).text()).includes(buildId),'Running server does not match the production build.');
+await writeFile('audit/build/capture-manifest.json',JSON.stringify({capturedAt:new Date().toISOString(),buildId,sources},null,2));
+console.log(JSON.stringify({results,errors},null,2));await writeFile('audit/build/browser-results.json',JSON.stringify({results,errors},null,2));await browser.close();console.log('PUBLIC_VIEWPORT_QA_VERIFIED');

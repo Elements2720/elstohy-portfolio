@@ -1,0 +1,20 @@
+{
+  "origin": "https://elstohy-dev.shreefgamal2720.workers.dev",
+  "results": [
+    {
+      "width": 1440,
+      "public": "passed",
+      "work": "passed",
+      "configuredLogin": "passed"
+    },
+    {
+      "width": 390,
+      "public": "passed",
+      "work": "passed",
+      "configuredLogin": "passed"
+    }
+  ],
+  "browserErrors": [],
+  "cloudinary": "Real signed upload, image retrieval and temporary asset deletion passed",
+  "limits": "Upload credential/signature integration tested directly; authenticated dashboard signing and password login await owner testing. No password or session impersonation used."
+}

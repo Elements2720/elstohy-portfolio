@@ -1,0 +1,15 @@
+export type Media = {public_id:string;secure_url:string;width:number;height:number;format:string;resource_type:'image'};
+export type ProjectApp = {id:string;name:string;type:string;platforms:string[];logo?:Media|null;screenshots:Media[];androidUrl:string;iosUrl:string;websiteUrl:string};
+export type CaseStudy = {overview:string;problem:string;myRole:string;architecture:string;technicalChallenges:string;whatIBuilt:string;integrations:string;results:string};
+export type Project = {
+ id:string;title:string;slug:string;shortDescription:string;fullDescription:string;role:string;category:string;projectType:'standard'|'case-study';technologies:string[];contributions:string[];challenges:string[];startDate:string;endDate:string;logo:Media|null;coverImage:Media|null;screenshots:Media[];platforms:string[];apps:ProjectApp[];androidUrl:string;iosUrl:string;websiteUrl:string;githubUrl:string;featured:boolean;status:'draft'|'published';displayOrder:number;createdAt:string;updatedAt:string;caseStudy:CaseStudy;seoTitle:string;seoDescription:string;ogImage:Media|null;
+};
+export type Profile = {displayName:string;headline:string;secondaryHeadline:string;shortBio:string;about:string;email:string;availabilityText:string;portrait:Media|null;heroImage:Media|null;heroWord:string;resumeUrl:string;resumeSanitized:boolean};
+export type Entry = {id:string;title:string;shortDescription:string;details:string;summary:string;description:string;startDate:string;endDate:string;highlights:string[];technologies:string[];relatedProjectIds:string[];displayOrder:number;published:boolean;updatedAt:string};
+export type Settings = {sitePublished:boolean;defaultProjectSort:'displayOrder'|'newest';contactEmail:string;resumeEnabled:boolean};
+export type Seo = {siteTitle:string;defaultDescription:string;defaultOgImage:Media|null;canonicalBaseUrl:string;socialPreviewTitle:string};
+export type Social = {email:string;linkedin:string;github:string;other:{label:string;url:string}[]};
+export type Portfolio = {profile:Profile;projects:Project[];services:Entry[];experience:Entry[];expertise:Entry[];settings:Settings;seo:Seo;social:Social};
+export const emptyCaseStudy:CaseStudy={overview:'',problem:'',myRole:'',architecture:'',technicalChallenges:'',whatIBuilt:'',integrations:'',results:''};
+export function newProject(id:string):Project{return {id,title:'',slug:'',shortDescription:'',fullDescription:'',role:'',category:'',projectType:'standard',technologies:[],contributions:[],challenges:[],startDate:'',endDate:'',logo:null,coverImage:null,screenshots:[],platforms:[],apps:[],androidUrl:'',iosUrl:'',websiteUrl:'',githubUrl:'',featured:false,status:'draft',displayOrder:0,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),caseStudy:{...emptyCaseStudy},seoTitle:'',seoDescription:'',ogImage:null};}
+export function newEntry(id:string):Entry{return {id,title:'',shortDescription:'',details:'',summary:'',description:'',startDate:'',endDate:'',highlights:[],technologies:[],relatedProjectIds:[],displayOrder:0,published:false,updatedAt:new Date().toISOString()};}
